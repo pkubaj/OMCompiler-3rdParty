@@ -118,6 +118,15 @@ elseif(TARGET_PLATFORM MATCHES ARM.*)
 
     list(APPEND SOURCES_LIST src/arm/ffi.c)
     set(TARGETDIR arm)
+elseif(TARGET_PLATFORM STREQUAL POWERPC)
+    # 64-bit ELF (Linux and FreeBSD powerpc64/powerpc64le) only; the sysv
+    # files from configure.host are for 32-bit powerpc.
+    list(APPEND SOURCES_LIST
+        src/powerpc/ffi.c
+        src/powerpc/ffi_linux64.c
+        src/powerpc/linux64.S
+        src/powerpc/linux64_closure.S)
+    set(TARGETDIR powerpc)
 endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL Darwin AND TARGET_PLATFORM STREQUAL AARCH64)
