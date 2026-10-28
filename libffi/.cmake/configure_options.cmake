@@ -131,7 +131,9 @@ endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL Darwin AND TARGET_PLATFORM STREQUAL AARCH64)
     set(FFI_EXEC_TRAMPOLINE_TABLE 1)
-elseif(CMAKE_SYSTEM_NAME STREQUAL Darwin OR TARGET_PLATFORM MATCHES .*FREEBSD.*)
+elseif(CMAKE_SYSTEM_NAME MATCHES "^(Darwin|FreeBSD|OpenBSD|SunOS|Android)$")
+    # Same systems as libffi's configure.ac: memory from malloc is not
+    # executable there, so closures need the mmap based allocator.
     set(FFI_MMAP_EXEC_WRIT 1)
 endif()
 
